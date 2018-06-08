@@ -50,8 +50,14 @@ class.name(t)
 -- return the defined classname or the lua type for an instance or class
 class.type(t)
 
--- check if the instance is an instance of a specific classname
-class.instanceof(o, name)
+-- check if an instance/class is/inherits from a specific classname
+class.is(t, name)
+
+-- alias for class.is()
+class.instanceof(t, name)
+
+-- return instance/class types map (type => true)
+class.types(t)
 
 -- return unique instance id (or nil if not an instance)
 -- works by using tostring(table) address hack or using a counter instead on failure
@@ -228,7 +234,8 @@ Which let:
 * `class.safedef`: only if you want all the class definitions to be accessibles
 * `class.name`
 * `class.type`
-* `class.instanceof`
+* `class.is` `class.instanceof`
+* `class.types`
 * `class.instanceid`
 * `class.instanciate`
 * `class.propagate`
@@ -272,7 +279,7 @@ cclass.new(name, statics, methods, ...)
 
 Special methods override the cclass methods, they all start by `__`.
 
-* `id`: return the instance id
+* `id`: return the instance id (intptr address)
 * `type`: return the type of the instance as a string
 * `instanceof(stype)`: check if the instance is based on the passed type (as string)
 * `cast(stype)`: return up-casted version of the instance in the passed type (as string)
@@ -280,6 +287,7 @@ Special methods override the cclass methods, they all start by `__`.
 * `s_...`: call the super method `...`
 * `s_Base_...`: call the super method `...` for a specific base class
 * `get(member)`: get the member function of the given name (cdata throw an error when a nil member is accessed)
+* `data`: return the datatable associated to this instance (per type, a cast from this instance will give a different datatable)
 
 ### Usage
 
